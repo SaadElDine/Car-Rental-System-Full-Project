@@ -1,0 +1,94 @@
+.footer {
+  background: #04343A;
+  padding-top: 50px;
+  padding-bottom: 15px;
+}
+
+.footer__logo i {
+  color: #EDFCFD;
+  font-weight: 400;
+}
+
+.footer__logo span {
+  color: #EDFCFD;
+  font-weight: 500;
+}
+
+.footer__logo-content {
+  color: rgba(255, 255, 255, 0.715);
+  margin-top: 15px;
+  line-height: 30px;
+}
+
+.quick__link {
+  border: none !important;
+  background: transparent !important;
+}
+
+.quick__link a {
+  color: rgba(237, 252, 253, 0.8);
+  text-decoration: none;
+  font-weight: 300;
+  transition: 0.3s;
+}
+
+.quick__link a:hover {
+  color: #04E824;
+}
+
+.footer__link-title {
+  color: #EDFCFD;
+}
+
+.office__info {
+  color: rgba(237, 252, 253, 0.8);
+  font-weight: 300;
+}
+
+.newsletter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid #042325;
+  border-radius: 50px;
+  background: #042325;
+}
+
+.newsletter input {
+  background: transparent;
+  color: #EDFCFD;
+  border: none;
+  outline: none;
+}
+
+.newsletter span i {
+  color: #EDFCFD;
+}
+
+.footer__bottom {
+  border-top: 1px solid #042325;
+}
+
+@media only screen and (max-width: 768px) {
+  .footer__logo-content {
+    font-size: 0.8rem;
+  }
+
+  .quick__link,
+  .office__info {
+    font-size: 0.8rem;
+    line-height: 1.5rem;
+  }
+
+  .footer__link-title {
+    font-size: 1rem;
+    margin-top: 15px;
+  }
+
+  .footer__bottom p {
+    font-size: 0.7rem;
+  }
+
+  
+}
