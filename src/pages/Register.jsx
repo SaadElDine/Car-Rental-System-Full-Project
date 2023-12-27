@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
 import { Router, useNavigate } from "react-router-dom"; 
 import Helmet from "../components/Helmet/Helmet";
@@ -45,7 +46,7 @@ export function RegisterPage() {
     setPhoneNumber(inputValue);
   };
   
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
       setPasswordsMatch(false);
@@ -56,16 +57,34 @@ export function RegisterPage() {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
     const { email } = data; 
-    
+    //console.log(data);
     // Reset the passwords match state
     setPasswordsMatch(true);
-    
+    const user = {
+      address: data.address,
+      contactInfo: data.phoneNumber, // Assuming the backend expects contactInfo
+      email: data.email,
+      name: data.name,
+      password: password, // Password comes directly from state
+    };
+  
+    // Log the user object to ensure it's structured correctly
+    console.log(user);
     // if user is logged in
     localStorage.setItem("loggedIn", true);
     localStorage.setItem("Email", email);
-    window.location.reload();
-    // Redirect to the home page 
-    navigate("/home");
+    try{
+      await axios.post("http://localhost:8080/customers/register", user);
+      localStorage.setItem("loggedIn", true);
+      localStorage.setItem("Email", email);
+      window.location.reload();
+      // Redirect to the home page 
+      navigate("/home");
+    }
+    catch(error){
+      alert("Error registering customer");
+      console.error("Error registering customer", error);
+    }
   };
 
   return (
@@ -78,6 +97,13 @@ export function RegisterPage() {
               <h6 className="fw-bold mb-4">Registration</h6>
 
               <Form onSubmit={onSubmit}>
+                <FormGroup className="contact__form">
+                  <input 
+                    type="text" 
+                    placeholder="Name"
+                    name= "name"
+                  />
+                </FormGroup>
                 <FormGroup className="contact__form">
                   <Input
                     placeholder="Email"
@@ -103,6 +129,7 @@ export function RegisterPage() {
                     name= "address"
                   />
                 </FormGroup>
+
                 <FormGroup className="contact__form">
                   <Input
                     placeholder="Password"
