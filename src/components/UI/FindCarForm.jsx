@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import "../../styles/find-car-form.css";
 import { Form, FormGroup } from "reactstrap";
-
+import CarListing from "../../pages/CarListing";
+import { Router, useNavigate } from "react-router-dom"; 
 
 const FindCarForm = () => {
 
+  const navigate = useNavigate();
   const [selectedOffice, setSelectedOffice] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
   
@@ -26,10 +28,10 @@ const FindCarForm = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-    console.log(data)
+    const queryParams = new URLSearchParams(data).toString(); 
+    navigate(`/cars?${queryParams}`);
   }
 
   React.useEffect(() => {
