@@ -18,7 +18,7 @@
 }
 
 .form__group input {
-  border: 1px solid #0A555C;
+  border: 1px solid #417a7f;
   padding: 8px 12px;
 
   width: 100%;
@@ -43,7 +43,7 @@
 .select__group select {
   width: 100%;
   padding: 10px 15px;
-  border: 1px solid #0A555C;
+  border: 1px solid #417a7f;
   outline: none;
   color: #789FA1;
 }
@@ -67,7 +67,7 @@
 }
 
 .journey__time::before {
-  content: "Journey time";
+  content: "Pickup Time";
   margin-right: 0.8rem;
   color: #789FA1;
 }
@@ -126,6 +126,10 @@
   }
 
   .form__group input {
+    font-size: 0.7rem !important;
+  }
+
+  .form__group {
     font-size: 0.7rem !important;
   }
 

@@ -30,7 +30,7 @@ export function LoginPage() {
     localStorage.setItem("Email", email);
     navigate("/home");
 
-    const isLoggedIn = localStorage.getItem("loggedIn")
+    const isLoggedIn = localStorage.getItem("loggedIn");
     console.log(data);
     // I have to call the backend on api /login with the data I have.
     
