@@ -3,6 +3,8 @@ import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
 import { Router, useNavigate } from "react-router-dom"; 
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
+import axios from "axios";
+
 
 import "../styles/contact.css";
 
@@ -60,6 +62,7 @@ export function RegisterPage() {
     // Reset the passwords match state
     setPasswordsMatch(true);
     const user = {
+      customerId: data.CustomerID,
       address: data.address,
       contactInfo: data.phoneNumber, // Assuming the backend expects contactInfo
       email: data.email,
@@ -106,11 +109,12 @@ export function RegisterPage() {
               <h6 className="fw-bold mb-4">Registration</h6>
 
               <Form onSubmit={onSubmit}>
-                <FormGroup className="contact__form">
-                  <input 
-                    type="text" 
+              <FormGroup className="contact__form">
+                  <Input
                     placeholder="Name"
-                    name= "name"
+                    type="name"
+                    name="name"
+                    required
                   />
                 </FormGroup>
                 <FormGroup className="contact__form">
@@ -118,6 +122,14 @@ export function RegisterPage() {
                     placeholder="Email"
                     type="email"
                     name="email"
+                    required
+                  />
+                </FormGroup>
+                <FormGroup className="contact__form">
+                  <Input
+                    placeholder="SSN"
+                    type="number"
+                    name="CustomerID"
                     required
                   />
                 </FormGroup>
@@ -132,10 +144,11 @@ export function RegisterPage() {
                   />
                 </FormGroup>
                 <FormGroup className="contact__form">
-                  <input 
+                  <Input 
                     type="text" 
                     placeholder="Address"
                     name= "address"
+                    required
                   />
                 </FormGroup>
 
@@ -175,4 +188,3 @@ export function RegisterPage() {
     </Helmet>
   );
 }
-
