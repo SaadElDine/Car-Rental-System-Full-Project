@@ -23,8 +23,8 @@ const navLinks = [
     display: "Blog",
   },
   {
-    path: "/contact",
-    display: "Contact",
+    path: "/Report",
+    display: "Report",
   },
 ];
 
