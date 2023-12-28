@@ -73,16 +73,26 @@ export function RegisterPage() {
     // if user is logged in
     localStorage.setItem("loggedIn", true);
     localStorage.setItem("Email", email);
-    try{
-      await axios.post("http://localhost:8080/customers/register", user);
+    try {
+      const response = await axios.post("http://localhost:8080/customers/register", user);
+      
+      // If the registration is successful, set loggedIn state and redirect
       localStorage.setItem("loggedIn", true);
-      localStorage.setItem("Email", email);
-      window.location.reload();
-      // Redirect to the home page 
-      navigate("/home");
-    }
-    catch(error){
-      alert("Error registering customer");
+      localStorage.setItem("Email", data.email);
+      navigate("/home"); // Redirect to the home page
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 409) {
+          alert("A customer with the same information already exists.");
+        } else if (error.response.status === 500) {
+          alert("An internal server error occurred ya hamoksha. Please try again later.");
+        } else {
+          alert("An unexpected error occurred. Please try again.");
+        }
+      } else {
+        // The request was made but no response was received
+        alert("There was a problem connecting to the server. Please check your connection and try again.");
+      }
       console.error("Error registering customer", error);
     }
   };
