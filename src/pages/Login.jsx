@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
+import axios from "axios";
 import "../styles/contact.css";
 import { useNavigate } from "react-router-dom";
 
@@ -18,26 +19,44 @@ export function LoginPage() {
     alert("A password reset email will be sent to your email address.");
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
+
+    // Form Data from the event
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
-    const { email } = data; 
+    const loginDetails = Object.fromEntries(formData.entries());
 
-    // if user is logged in:
-    localStorage.setItem("loggedIn", true);
-    localStorage.setItem("Email", email);
-    navigate("/home");
+    // Prepare the loginDetails object for the API
+    const user = {
+      email: loginDetails.email,
+      password: loginDetails.password, // Password from the form
+    };
 
-    const isLoggedIn = localStorage.getItem("loggedIn");
-    console.log(data);
-    // I have to call the backend on api /login with the data I have.
-    
-    // You can use axios to call the backend
+    try {
+      // POST request to the Login API endpoint
+      const response = await axios.post("http://localhost:8080/customers/login", user);
 
-    // in case error we can notify the user
-    alert("Wrong email or password");
-    // do whatever you want
+      if (response.status === 200) {
+        // If login is successful, set loggedIn state and redirect
+        localStorage.setItem("loggedIn", true);
+        localStorage.setItem("Email", user.email);
+        navigate("/home"); // Redirect to the home page
+        alert("Login successful");
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          alert("Login failed: Invalid email or password");
+        } else {
+          // Handle other HTTP status codes appropriately
+          alert("An unexpected error occurred. Please try again.");
+        }
+      } else {
+        // The request was made but no response was received
+        alert("There was a problem connecting to the server. Please check your connection and try again.");
+      }
+      console.error("Error logging in customer", error);
+    }
   };
 
   return (
