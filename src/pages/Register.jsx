@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
 import { Router, useNavigate } from "react-router-dom"; 
 import Helmet from "../components/Helmet/Helmet";

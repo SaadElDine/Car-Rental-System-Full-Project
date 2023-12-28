@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-
-import carData from "../assets/data/carData";
 import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import { useParams } from "react-router-dom";
@@ -8,16 +6,17 @@ import BookingForm from "../components/UI/BookingForm";
 import PaymentMethod from "../components/UI/PaymentMethod";
 
 const CarDetails = () => {
+  
+  const carData = localStorage.getItem("cardata");
   const { slug } = useParams();
-
-  const singleCarItem = carData.find((item) => item.carName === slug);
+  const singleCarItem = carData.find((item) => item.model === slug);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [singleCarItem]);
 
   return (
-    <Helmet title={singleCarItem.carName}>
+    <Helmet title={singleCarItem.model}>
       <section>
         <Container>
           <Row>
@@ -27,7 +26,7 @@ const CarDetails = () => {
 
             <Col lg="6">
               <div className="car__info">
-                <h2 className="section__title">{singleCarItem.carName}</h2>
+                <h2 className="section__title">{singleCarItem.model}</h2>
 
                 <div className=" d-flex align-items-center gap-5 mb-4 mt-3">
                   <h6 className="rent__price fw-bold fs-4">
@@ -67,7 +66,7 @@ const CarDetails = () => {
                       class="ri-settings-2-line"
                       style={{ color: "#04e824" }}
                     ></i>{" "}
-                    {singleCarItem.automatic}
+                    {singleCarItem.status}
                   </span>
 
                   <span className=" d-flex align-items-center gap-1 section__description">
@@ -75,7 +74,7 @@ const CarDetails = () => {
                       class="ri-timer-flash-line"
                       style={{ color: "#04e824" }}
                     ></i>{" "}
-                    {singleCarItem.speed}
+                    {singleCarItem.plateId}
                   </span>
                 </div>
 
