@@ -28,19 +28,19 @@ const navLinks = [
   },
 ];
 
-const Header = () => {
+const AdminHeader = () => {
   const menuRef = useRef(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("loggedIn"));
-  const [email, setEmail] = useState("");
+  const [adminisLoggedIn, setadminIsLoggedIn] = useState(localStorage.getItem("adminloggedIn"));
+  const [email, setadminEmail] = useState("");
 
   useEffect(() => {
   
-    const loggedIn = localStorage.getItem("loggedIn") === "true";
-    const userEmail = localStorage.getItem("Email");
-    setIsLoggedIn(loggedIn);
-    setEmail(userEmail);
-  }, [isLoggedIn]);
-  console.log(localStorage.getItem("loggedIn"));
+    const adminloggedIn = localStorage.getItem("loggedIn") === "true";
+    const adminEmail = localStorage.getItem("adminEmail");
+    setadminIsLoggedIn(adminloggedIn);
+    setadminEmail(adminEmail);
+    }, [adminisLoggedIn]);
+  console.log(localStorage.getItem("adminloggedIn"));
   
   const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
 
@@ -51,30 +51,19 @@ const Header = () => {
         <Container>
           <Row>
             <Col lg="6" md="6" sm="6">
-              <div className="header__top__left">
-                <span>Need Help?</span>
-                <span className="header__top__help">
-                  <i class="ri-phone-fill"></i> +20-123-444-0515
-                </span>
-              </div>
-            </Col>
-            <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-              { isLoggedIn ? ( 
-                  <div>
-                    <span>Welcome, {email}</span>
-                  </div>
-                ) 
-                : 
-                (
-                  <>
-                    <Link to="/login" className=" d-flex align-items-center gap-1">
-                      <i className="ri-login-circle-line"></i> Login
-                    </Link>
-                    <Link to="/register" className=" d-flex align-items-center gap-1">
-                      <i className="ri-user-line"></i> Register
-                    </Link>
-                  </>
+              { adminisLoggedIn ? ( 
+                    <div>
+                      <span>Welcome, {email}</span>
+                    </div>
+                  ) 
+                  : 
+                  (
+                    <>
+                      <Link to="/admin/login" className=" d-flex align-items-center gap-1">
+                        <i className="ri-login-circle-line"></i> Login
+                      </Link>
+                    </>
                 )
               }
               </div>
@@ -180,4 +169,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default AdminHeader;

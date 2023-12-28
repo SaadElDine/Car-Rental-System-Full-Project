@@ -7,15 +7,20 @@ import "../styles/contact.css";
 import { useNavigate } from "react-router-dom";
 
 export function AdminLogin() {
+
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   
   const onSubmit = (event) => {
     event.preventDefault();
-    navigate("/AdminHome");
+    
+    //adminloggedin
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-    
+    const { email } = data; 
+    localStorage.setItem("adminloggedIn", true);
+    navigate("/Admin/Home");
+    const adminisLoggedIn = localStorage.getItem("adminloggedIn");
     // I have to call the backend on api /login with the data I have.
     // You can use axios to call the backend
     //If kolo taht el saytara
