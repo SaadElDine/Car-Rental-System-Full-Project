@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
@@ -14,7 +15,7 @@ const CarListing = () => {
   const handleOfficeChange = (event) => {
     setSelectedOffice(event.target.value);
   };
-
+      
   const [formData, setFormData] = useState({
     plateId: "",
     model: "",
@@ -33,6 +34,24 @@ const CarListing = () => {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
     console.log(data)
+
+    try {
+      const response = await axios.post("http://localhost:8080/cars/search", data);
+
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 500) {
+          alert("An internal server error occurred ya hamoksha. Please try again later.");
+        } else {
+          alert("An unexpected error occurred. Please try again.");
+        }
+      } else {
+        // The request was made but no response was received
+        alert("There was a problem connecting to the server. Please check your connection and try again.");
+      }
+      console.error("Error", error);
+    }
+
   }
 
   React.useEffect(() => {
