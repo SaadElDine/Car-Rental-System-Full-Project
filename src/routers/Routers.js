@@ -8,11 +8,12 @@ import Blog from "../pages/Blog";
 import BlogDetails from "../pages/BlogDetails";
 import NotFound from "../pages/NotFound";
 import Contact from "../pages/Contact";
+import { AdminReport } from "../pages/AdminReport";
 import { LoginPage } from "../pages/Login";
 import { AdminLogin } from "../pages/AdminLogin";
 import { RegisterPage } from "../pages/Register";
 import { AdminHome } from "../pages/AdminHome";
-import { AdminReport } from "../pages/AdminReport";
+
 
 const Routers = () => {
   return (
@@ -29,7 +30,7 @@ const Routers = () => {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/home" element={<AdminHome />} />
-      <Route path="/report" element={<AdminReport />} />
+      <Route path="/admin/report" element={<AdminReport />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

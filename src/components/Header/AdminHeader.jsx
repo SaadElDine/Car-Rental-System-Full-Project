@@ -6,24 +6,24 @@ import "../../styles/header.css";
 
 const navLinks = [
   {
-    path: "/home",
+    path: "/admin/home",
     display: "Home",
   },
   {
-    path: "/about",
+    path: "/admin/about",
     display: "About",
   },
   {
-    path: "/cars",
+    path: "/admin/cars",
     display: "Cars",
   },
 
   {
-    path: "/blogs",
+    path: "/admin/blogs",
     display: "Blog",
   },
   {
-    path: "/Report",
+    path: "/admin/report",
     display: "Report",
   },
 ];
@@ -32,6 +32,17 @@ const AdminHeader = () => {
   const menuRef = useRef(null);
   const [adminisLoggedIn, setadminIsLoggedIn] = useState(localStorage.getItem("adminloggedIn"));
   const [email, setadminEmail] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    // Perform search based on searchQuery
+    console.log("Search query:", searchQuery);
+  };
 
   useEffect(() => {
   
@@ -40,6 +51,7 @@ const AdminHeader = () => {
     setadminIsLoggedIn(adminloggedIn);
     setadminEmail(adminEmail);
     }, [adminisLoggedIn]);
+
   console.log(localStorage.getItem("adminloggedIn"));
   
   const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
@@ -156,10 +168,18 @@ const AdminHeader = () => {
 
             <div className="nav__right">
               <div className="search__box">
-                <input type="text" placeholder="Search" />
-                <span>
-                  <i class="ri-search-line"></i>
-                </span>
+                <form onSubmit={handleSearchSubmit}>
+                  <input
+                    type="text"
+                    name="search"
+                    placeholder="Search"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                  />
+                  <button type="submit">
+                    <i className="ri-search-line"></i>
+                  </button>
+                </form>
               </div>
             </div>
           </div>
