@@ -7,20 +7,11 @@ import "../../styles/header.css";
 const navLinks = [
   {
     path: "/admin/home",
-    display: "Home",
+    display: "New Car",
   },
   {
     path: "/admin/about",
-    display: "About",
-  },
-  {
-    path: "/admin/cars",
-    display: "Cars",
-  },
-
-  {
-    path: "/admin/blogs",
-    display: "Blog",
+    display: "Update Status",
   },
   {
     path: "/admin/report",
