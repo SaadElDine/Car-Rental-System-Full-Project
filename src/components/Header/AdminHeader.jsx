@@ -22,7 +22,7 @@ const navLinks = [
 const AdminHeader = () => {
   const menuRef = useRef(null);
   const [adminisLoggedIn, setadminIsLoggedIn] = useState(localStorage.getItem("adminloggedIn"));
-  const [email, setadminEmail] = useState("");
+  const [adminEmail, setadminEmail] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (event) => {
@@ -57,7 +57,7 @@ const AdminHeader = () => {
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
               { adminisLoggedIn ? ( 
                     <div>
-                      <span>Welcome, {email}</span>
+                      <span>Welcome, {adminEmail}</span>
                     </div>
                   ) 
                   : 

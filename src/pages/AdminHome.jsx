@@ -28,6 +28,40 @@ export function AdminHome() {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
+
+    // Log the user object to ensure it's structured correctly
+   
+    const addcar = {
+      plateId: data.plateId,
+      color: data.color,
+      imageUrl: data.imageUrl, // Assuming the backend expects contactInfo
+      location: selectedOffice,
+      model: data.model,
+      price: data.price, // Password comes directly from state
+      status: selectedStatus,
+      year: data.year
+    };
+    console.log(addcar);
+    try{
+      const response = await axios.post("http://localhost:8080/cars/addcar", addcar);
+      alert("New Car Added Successfully!");
+    }
+    catch(error){
+      if (error.response) {
+        if (error.response.status === 409) {
+          alert("A Car with the same PlateId already exists.");
+        } else if (error.response.status === 500) {
+          alert("A Car with the same PlateId already exists");
+        } else {
+          alert("An unexpected error occurred. Please try again.");
+        }
+      } else {
+        // The request was made but no response was received
+        alert("There was a problem connecting to the server. Please check your connection and try again.");
+      }
+      console.error("Error registering customer", error);
+    }
+    
     
   }
 
@@ -110,7 +144,7 @@ export function AdminHome() {
                     onChange={handleStatusChange}
                   >
                     <option value="">Status</option>
-                    <option value="Active">Active</option>
+                    <option value="Active">Available</option>
                     <option value="Rented">Rented</option>
                     <option value="Out Of Service">Out Of Service</option>
                   </select>
@@ -126,6 +160,17 @@ export function AdminHome() {
                     onChange={handleInputChange}
                   />
                 </FormGroup>
+                <FormGroup className="form__group">
+                <label For="RegType">Year:</label>
+                  <input 
+                    type="number" 
+                    name="year"
+                    placeholder="Year" 
+                    value={formData.year}
+                    onChange={handleInputChange}
+                  />
+                </FormGroup>
+
                 <button className="contact__btn" type="submit">
                   Add New Car
                 </button>
