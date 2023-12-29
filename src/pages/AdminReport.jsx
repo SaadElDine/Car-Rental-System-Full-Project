@@ -32,9 +32,8 @@ export function AdminReport() {
       } else if (reportType === "dailyPayments") {
         response = await axios.get("http://localhost:8080/payments", { params: data });
       }
-
+      console.log(response.data);
       setReportData(response.data);
-      navigate("/admin/report/table");
     } catch (error) {
       console.error("Error fetching report data", error);
     }
@@ -139,20 +138,35 @@ export function AdminReport() {
               Get Report
             </button>
           </Form>
-          {reportData.length > 0 && (
-            <Table>
-              <thead>
-                {/* Add table header cells based on report type */}
-              </thead>
-              <tbody>
-                {reportData.map((row, index) => (
-                  <tr key={index}>
-                    {/* Render table cells based on report type */}
+          
+          <div>
+            <h2>Reservations</h2>
+              <table>
+                <thead>
+                  <tr>
+                     <th>Reservation ID</th>
+                     <th>Plate ID</th>
+                     <th>Customer ID</th>
+                     <th>Pickup Date</th>
+                     <th>Return Date</th>
+                     <th>Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
-          )}
+        </thead>
+        <tbody>
+          {reportData.map((reportData, index) => (
+            <tr key={index}>
+              <td>{reportData.reservationId}</td>
+              <td>{reportData.plateId}</td>
+              <td>{reportData.customerId}</td>
+              <td>{reportData.pickUpDate}</td>
+              <td>{reportData.returnDate}</td>
+              <td>{reportData.reservationStatus}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
         </Container>
       </section>
     </Helmet>
