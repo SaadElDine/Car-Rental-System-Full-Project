@@ -1,34 +1,14 @@
 import React, { useState } from "react";
+import axios from "axios"; // Make sure to import axios
 import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
-
 import "../styles/contact.css";
 import { useNavigate } from "react-router-dom";
 
 export function AdminLogin() {
-
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  
-  const onSubmit = (event) => {
-    event.preventDefault();
-    
-    //adminloggedin
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
-    const { email } = data; 
-    localStorage.setItem("adminloggedIn", true);
-    navigate("/Admin/Home");
-    const adminisLoggedIn = localStorage.getItem("adminloggedIn");
-    // I have to call the backend on api /login with the data I have.
-    // You can use axios to call the backend
-    //If kolo taht el saytara
-    //navigate("Somewhere for data manipulation");
-    // in case error we can notify the user
-    //alert("Wrong email or password");
-    // do whatever you want
-  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); 
@@ -39,6 +19,51 @@ export function AdminLogin() {
     alert("A password reset email will be sent to your email address.");
   };
 
+  const onSubmit = async (event) => {
+    event.preventDefault();
+  
+    // Form Data from the event
+    const formData = new FormData(event.target);
+    const loginDetails = Object.fromEntries(formData.entries());
+  
+    // Prepare the admin login details object for the API
+    const adminCredentials = {
+      email: loginDetails.email,
+      password: loginDetails.password, // Password from the form
+    };
+  
+    try {
+      // POST request to the Admin Login API endpoint
+      const response = await axios.post("http://localhost:8080/admins/login", adminCredentials);
+  
+      if (response.status === 200) {
+        // If login is successful, set adminLoggedIn state and redirect
+        localStorage.setItem("adminLoggedIn", true);
+        localStorage.setItem("Email", adminCredentials.email);
+        navigate("/Admin/Home"); // Redirect to the admin home page
+        alert("Admin Login successful");
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          // Handle 401 Unauthorized error
+          alert("Login failed: Invalid email or password");
+        } else {
+          // Handle other HTTP status codes appropriately
+          alert("An unexpected error occurred. Please try again.");
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        alert("There was a problem connecting to the server. Please check your connection and try again.");
+      } else {
+        // Something happened in setting up the request that triggered an error
+        alert("Error: ", error.message);
+      }
+      console.error("Error logging in admin", error);
+    }
+  };
+  
+
   return (
     <Helmet title="Admin Login">
       {<CommonSection title="Admin Login" /> }
@@ -46,7 +71,7 @@ export function AdminLogin() {
         <Container>
           <Row>
             <Col lg="7" md="7">
-              <h6 className="fw-bold mb-4">Login</h6>
+              <h6 className="fw-bold mb-4">Admin Login</h6>
 
               <Form onSubmit={onSubmit}>
                 
@@ -56,7 +81,7 @@ export function AdminLogin() {
                 <FormGroup className="contact__form">
                   <Input
                     placeholder="Password"
-                    type={showPassword ? "text" : "password"} // Conditionally change the type based on showPassword state
+                    type={showPassword ? "text" : "password"}
                     name="password"
                   />
                   <span className="forgot-password-link">
