@@ -13,6 +13,7 @@ import { LoginPage } from "../pages/Login";
 import { AdminLogin } from "../pages/AdminLogin";
 import { RegisterPage } from "../pages/Register";
 import { AdminHome } from "../pages/AdminHome";
+import { AdminUpdate } from "../pages/AdminUpdate";
 import { Table } from "../pages/Table";
 
 
@@ -31,6 +32,7 @@ const Routers = () => {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/home" element={<AdminHome />} />
+      <Route path="/admin/update" element={<AdminUpdate />} />
       <Route path="/admin/report" element={<AdminReport />} />
       <Route path="/admin/report/table" element={<Table />} />
       <Route path="*" element={<NotFound />} />
