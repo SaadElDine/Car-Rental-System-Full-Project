@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios"; // Make sure to import axios
-import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
+import { Container, Row, Col, Form, FormGroup, Input, InputGroup, Button  } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
 import "../styles/contact.css";
@@ -85,19 +85,17 @@ export function AdminLogin() {
   
                 </FormGroup>
                 <FormGroup className="contact__form">
-                  <Input
-                    placeholder="Password"
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    required
-                  />
-                    <button
-                      type="button"
-                      className="toggle-password-btn"
-                      onClick={togglePasswordVisibility}
-                    >
-                      {showPassword ? "Hide" : "Show"}
-                    </button>
+                  <InputGroup>
+                    <Input
+                      placeholder="Password"
+                      type={showPassword ? "text" : "password"} 
+                      name="password"
+                    />
+                      <Button onClick={togglePasswordVisibility}>
+                        <i className={showPassword ? "ri-eye-close-line" : "ri-eye-line"}></i>
+                      </Button>
+
+                  </InputGroup>
                   <span className="forgot-password-link">
                     <a href="#" onClick={handleForgotPasswordClick}>
                       Forgot Password?

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
+import { Container, Row, Col, Form, FormGroup, Input, InputGroup, Button } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
 import axios from "axios";
@@ -78,11 +78,17 @@ export function LoginPage() {
                   />
                 </FormGroup>
                 <FormGroup className="contact__form">
-                  <Input
-                    placeholder="Password"
-                    type={showPassword ? "text" : "password"} // Conditionally change the type based on showPassword state
-                    name="password"
-                  />
+                  <InputGroup>
+                    <Input
+                      placeholder="Password"
+                      type={showPassword ? "text" : "password"} 
+                      name="password"
+                    />
+                      <Button onClick={togglePasswordVisibility}>
+                        <i className={showPassword ? "ri-eye-close-line" : "ri-eye-line"}></i>
+                      </Button>
+
+                  </InputGroup>
                   <span className="forgot-password-link">
                     <a href="#" onClick={handleForgotPasswordClick}>
                       Forgot Password?

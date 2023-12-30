@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState  } from "react";
 import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import { useParams } from "react-router-dom";
@@ -6,17 +6,34 @@ import BookingForm from "../components/UI/BookingForm";
 import PaymentMethod from "../components/UI/PaymentMethod";
 
 const CarDetails = () => {
-  
-  const carData = localStorage.getItem("cardata");
   const { slug } = useParams();
-  const singleCarItem = carData.find((item) => item.model === slug);
+  const [carData, setCarData] = useState([]);
+  const [singleCarItem, setSingleCarItem] = useState(null);
+
+  useEffect(() => {
+    console.log("Slug:", slug);
+  }, [slug]);
+
+  useEffect(() => {
+    const storedCarData = localStorage.getItem("cardata");
+    if (storedCarData) {
+      setCarData(JSON.parse(storedCarData));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (carData.length > 0) {
+      const foundCar = carData.find((item) => item.plateId === slug);
+      setSingleCarItem(foundCar);
+    }
+  }, [carData, slug]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [singleCarItem]);
 
   return (
-    <Helmet title={singleCarItem.model}>
+    <Helmet title={singleCarItem.plateId}>
       <section>
         <Container>
           <Row>

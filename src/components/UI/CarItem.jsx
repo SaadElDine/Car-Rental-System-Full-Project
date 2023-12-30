@@ -1,14 +1,23 @@
 import React from "react";
 import { Col } from "reactstrap";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../../styles/car-item.css";
 
 
-
-
 const CarItem = (props) => {
   const { imageUrl, model, plateId, status, color, price, location, year } = props.item;
+  const navigate = useNavigate();
   
+  const onClick = async () => {
+    if(!localStorage.getItem("loggedIn")){
+      navigate("/register"); 
+      alert("Please Register First!");
+    }
+    navigate("/reservation");
+  };
+ 
+
   return (
     <Col lg="4" md="4" sm="6" className="mb-5">
       <div className="car__item">
@@ -33,14 +42,10 @@ const CarItem = (props) => {
               <i class="ri-timer-flash-line"></i> {plateId}
             </span>
           </div>
-
-          <button className=" w-50 car__item-btn car__btn-rent">
-            <Link to={`/cars/${model}`}>Rent</Link>
+          <button className="w-100 car__item-btn car__btn-details"  onClick={onClick}>
+            Rent Car
           </button>
 
-          <button className=" w-50 car__item-btn car__btn-details">
-            <Link to={`/cars/${model}`}>Details</Link>
-          </button>
         </div>
       </div>
     </Col>
