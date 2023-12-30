@@ -57,7 +57,7 @@ const CarListing = () => {
     const data = Object.fromEntries(formData.entries());
     console.log(data)
     console.log("SENDING...")
-    localStorage.setItem("cardata", carData);
+    localStorage.setItem("cardata", JSON.stringify(carData));
     try {
       const response = await axios.post("http://localhost:8080/cars/search", data);
       console.log("RECEIVING...")

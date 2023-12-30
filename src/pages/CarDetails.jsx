@@ -7,7 +7,16 @@ import PaymentMethod from "../components/UI/PaymentMethod";
 
 const CarDetails = () => {
   
-  const carData = localStorage.getItem("cardata");
+  const carDataString = localStorage.getItem("cardata");
+  let carData = [];
+
+  try {
+   if (carDataString) {
+      carData = JSON.parse(carDataString);
+    }
+  } catch (error) {
+  console.error("Error parsing car data:", error);
+  }
   const { slug } = useParams();
   const singleCarItem = carData.find((item) => item.model === slug);
 
