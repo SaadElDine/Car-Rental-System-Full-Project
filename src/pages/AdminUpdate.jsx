@@ -19,6 +19,27 @@ export function AdminUpdate() {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
+
+    console.log(data);
+    try{
+      const response = await axios.post("http://localhost:8080/cars/updatecar", data);
+      alert("Car Status Updated Successfully!");
+    }
+    catch(error){
+      if (error.response) {
+        if (error.response.status === 409) {
+          alert("A Car with this PlateId does not exist!");
+        } else if (error.response.status === 500) {
+          alert("A Car with this PlateId does not exist!");
+        } else {
+          alert("An unexpected error occurred. Please try again.");
+        }
+      } else {
+        // The request was made but no response was received
+        alert("There was a problem connecting to the server. Please check your connection and try again.");
+      }
+      console.error("Error registering customer", error);
+    }
     
   }
 
@@ -43,7 +64,8 @@ export function AdminUpdate() {
                     name="plateId"
                     placeholder="Plate ID" 
                     value={formData.plateId}
-                    onChange={handleInputChange} 
+                    onChange={handleInputChange}
+                    required 
                   />
                 </FormGroup>
 
@@ -55,7 +77,7 @@ export function AdminUpdate() {
                     onChange={handleStatusChange}
                   >
                     <option value="">Status</option>
-                    <option value="Active">Active</option>
+                    <option value="Available">Active</option>
                     <option value="Rented">Rented</option>
                     <option value="Out Of Service">Out Of Service</option>
                   </select>

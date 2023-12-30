@@ -80,7 +80,7 @@ export function LoginPage() {
                 <FormGroup className="contact__form">
                   <Input
                     placeholder="Password"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? "text" : "password"} // Conditionally change the type based on showPassword state
                     name="password"
                   />
                   <span className="forgot-password-link">

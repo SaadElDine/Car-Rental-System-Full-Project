@@ -40,7 +40,7 @@ export function AdminLogin() {
         // If login is successful, set adminLoggedIn state and redirect
         localStorage.setItem("adminLoggedIn", true);
         localStorage.setItem("adminEmail", adminCredentials.email);
-        navigate("/Admin/Home"); // Redirect to the admin home page
+        navigate("/admin/home"); // Redirect to the admin home page
         alert("Admin Login successful");
       }
     } catch (error) {
@@ -76,14 +76,28 @@ export function AdminLogin() {
               <Form onSubmit={onSubmit}>
                 
                 <FormGroup className="contact__form">
-                  <Input placeholder="Email" type="email" name="email" />
+                  <Input 
+                    placeholder="Email" 
+                    type="email" 
+                    name="email" 
+                    required
+                  />
+  
                 </FormGroup>
                 <FormGroup className="contact__form">
                   <Input
                     placeholder="Password"
                     type={showPassword ? "text" : "password"}
                     name="password"
+                    required
                   />
+                    <button
+                      type="button"
+                      className="toggle-password-btn"
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? "Hide" : "Show"}
+                    </button>
                   <span className="forgot-password-link">
                     <a href="#" onClick={handleForgotPasswordClick}>
                       Forgot Password?
