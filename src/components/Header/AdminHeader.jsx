@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import { Container, Row, Col } from "reactstrap";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink,  useNavigate} from "react-router-dom";
 import "../../styles/header.css";
 
 const navLinks = [
@@ -19,11 +18,13 @@ const navLinks = [
   },
 ];
 
-const AdminHeader = () => {
+
+function AdminHeader() {
   const menuRef = useRef(null);
   const [adminIsLoggedIn, setadminIsLoggedIn] = useState(localStorage.getItem("adminLoggedIn"));
   const [adminEmail, setadminEmail] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -31,22 +32,25 @@ const AdminHeader = () => {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    // Perform search based on searchQuery
-    console.log("Search query:", searchQuery);
+    localStorage.setItem("Search", searchQuery);
+    console.log(localStorage.getItem("Search"));
+    navigate("/admin/table");
   };
 
   useEffect(() => {
-  
+
     const adminLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
     const adminemail = localStorage.getItem("adminEmail");
-    console.log("admin",adminEmail);
-    console.log("lOGGED IN?",adminLoggedIn);
     setadminIsLoggedIn(adminLoggedIn);
     setadminEmail(adminemail);
-    }, [adminIsLoggedIn]);
 
-  console.log(localStorage.getItem("adminLoggedIn"));
-  
+      if (!adminLoggedIn) {
+      alert("You're Not Logged In");
+      navigate("/admin/login");
+      
+    }
+  }, [navigate, adminIsLoggedIn]);
+
   const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
 
   return (
@@ -57,20 +61,19 @@ const AdminHeader = () => {
           <Row>
             <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-              { adminIsLoggedIn ? ( 
-                    <div>
-                      <span>Welcome, {adminEmail}</span>
-                    </div>
-                  ) 
-                  : 
+                {adminIsLoggedIn ? (
+                  <div>
+                    <span>Welcome, {adminEmail}</span>
+                  </div>
+                )
+                  :
                   (
                     <>
                       <Link to="/admin/login" className=" d-flex align-items-center gap-1">
                         <i className="ri-login-circle-line"></i> Login
                       </Link>
                     </>
-                )
-              }
+                  )}
               </div>
             </Col>
           </Row>
@@ -148,9 +151,7 @@ const AdminHeader = () => {
                 {navLinks.map((item, index) => (
                   <NavLink
                     to={item.path}
-                    className={(navClass) =>
-                      navClass.isActive ? "nav__active nav__item" : "nav__item"
-                    }
+                    className={(navClass) => navClass.isActive ? "nav__active nav__item" : "nav__item"}
                     key={index}
                   >
                     {item.display}
@@ -167,9 +168,8 @@ const AdminHeader = () => {
                     name="search"
                     placeholder="Search"
                     value={searchQuery}
-                    onChange={handleSearchChange}
-                  />
-                  <button type="submit">
+                    onChange={handleSearchChange} />
+                  <button type="submit" style={{ background: "transparent", border: "none" }}>
                     <i className="ri-search-line"></i>
                   </button>
                 </form>
@@ -180,6 +180,6 @@ const AdminHeader = () => {
       </div>
     </header>
   );
-};
+}
 
 export default AdminHeader;

@@ -57,18 +57,19 @@ const CarListing = () => {
     const data = Object.fromEntries(formData.entries());
     console.log(data)
     console.log("SENDING...")
-    localStorage.setItem("cardata", carData);
+
     try {
       const response = await axios.post("http://localhost:8080/cars/search", data);
       console.log("RECEIVING...")
       console.log(response.data)
       setCarData(response.data)
+      localStorage.setItem("cardata", JSON.stringify(response.data));
 
 
     } catch (error) {
       if (error.response) {
         if (error.response.status === 500) {
-          alert("An internal server error occurred ya hamoksha. Please try again later.");
+          alert("An internal server error occurred, Please try again later.");
         } else {
           alert("An unexpected error occurred. Please try again.");
         }

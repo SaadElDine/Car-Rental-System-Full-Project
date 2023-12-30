@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { Container, Form, FormGroup, Label, Input, Button, Table } from "reactstrap";
-import { useNavigate } from "react-router-dom";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
 import axios from "axios";
-
+import "../styles/table.css";
 import "../styles/contact.css";
 
 export function AdminReport() {
-  const navigate = useNavigate();
+
   const [reportType, setReportType] = useState("allReservations");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [specificDate, setSpecificDate] = useState("");
   const [customerId, setCustomerId] = useState("");
   const [reportData, setReportData] = useState([]);
+  const [plateId, setPlateId] = useState("");
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -23,7 +23,9 @@ export function AdminReport() {
 
     try {
       let response;
-      if (reportType === "allReservations" || reportType === "reservationsByCar") {
+      if (reportType === "allReservations") {
+        response = await axios.get("http://localhost:8080/reservationsall", { params: data });
+      } else if (reportType === "reservationsByCar") {
         response = await axios.get("http://localhost:8080/reservations", { params: data });
       } else if (reportType === "carStatus") {
         response = await axios.get(`http://localhost:8080/cars/status/${specificDate}`);
@@ -53,7 +55,9 @@ export function AdminReport() {
                 id="reportType"
                 value={reportType}
                 onChange={(e) => setReportType(e.target.value)}
+                required
               >
+                <option value="">Choose Report</option>
                 <option value="allReservations">All Reservations</option>
                 <option value="reservationsByCar">Reservations by Car</option>
                 <option value="carStatus">Car Status</option>
@@ -61,8 +65,7 @@ export function AdminReport() {
                 <option value="dailyPayments">Daily Payments</option>
               </Input>
             </FormGroup>
-            {(reportType === "allReservations" ||
-              reportType === "reservationsByCar") && (
+            {(reportType === "allReservations") && (
               <>
                 <FormGroup>
                   <Label for="startDate">Start Date:</Label>
@@ -70,8 +73,10 @@ export function AdminReport() {
                     type="date"
                     name="startDate"
                     id="startDate"
+                    placeholder="MM/DD/YYYY"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
+                    required
                   />
                 </FormGroup>
                 <FormGroup>
@@ -80,8 +85,50 @@ export function AdminReport() {
                     type="date"
                     name="endDate"
                     id="endDate"
+                    placeholder="MM/DD/YYYY"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
+                    required
+                  />
+                </FormGroup>
+              </>
+            )}
+            {(reportType === "reservationsByCar") && (
+              <>
+                <FormGroup>
+                  <Label for="plateId">Plate ID:</Label>
+                  <Input
+                    type="text"
+                    name="plateId"
+                    id="plateId"
+                    placeholder="Plate ID"
+                    value={plateId}
+                    onChange={(e) => setPlateId(e.target.value)}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="startDate">Start Date:</Label>
+                  <Input
+                    type="date"
+                    name="startDate"
+                    id="startDate"
+                    placeholder="MM/DD/YYYY"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="endDate">End Date:</Label>
+                  <Input
+                    type="date"
+                    name="endDate"
+                    id="endDate"
+                    placeholder="MM/DD/YYYY"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    required
                   />
                 </FormGroup>
               </>
@@ -93,8 +140,10 @@ export function AdminReport() {
                   type="date"
                   name="specificDate"
                   id="specificDate"
+                  placeholder="MM/DD/YYYY"
                   value={specificDate}
                   onChange={(e) => setSpecificDate(e.target.value)}
+                  required
                 />
               </FormGroup>
             )}
@@ -105,8 +154,10 @@ export function AdminReport() {
                   type="text"
                   name="customerId"
                   id="customerId"
+                  placeholder="Customer ID"
                   value={customerId}
                   onChange={(e) => setCustomerId(e.target.value)}
+                  required
                 />
               </FormGroup>
             )}
@@ -118,8 +169,10 @@ export function AdminReport() {
                     type="date"
                     name="startDate"
                     id="startDate"
+                    placeholder="MM/DD/YYYY"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
+                    required
                   />
                 </FormGroup>
                 <FormGroup>
@@ -128,8 +181,10 @@ export function AdminReport() {
                     type="date"
                     name="endDate"
                     id="endDate"
+                    placeholder="MM/DD/YYYY"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
+                    required
                   />
                 </FormGroup>
               </>
@@ -138,34 +193,42 @@ export function AdminReport() {
               Get Report
             </button>
           </Form>
-          
+          <br></br>
+          <br></br>
           <div>
-            <h2>Reservations</h2>
-              <table>
-                <thead>
-                  <tr>
-                     <th>Reservation ID</th>
-                     <th>Plate ID</th>
-                     <th>Customer ID</th>
-                     <th>Pickup Date</th>
-                     <th>Return Date</th>
-                     <th>Status</th>
+            <h2>Reservations: </h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Reservation ID</th>
+                  <th>Plate ID</th>
+                  <th>Customer ID</th>
+                  <th>Pickup Date</th>
+                  <th>Return Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reportData.map((reportData, index) => (
+                  <tr key={index}>
+                    <td>{reportData.reservationId}</td>
+                    <td>{reportData.plateId}</td>
+                    <td>{reportData.customerId}</td>
+                    <td>{reportData.pickUpDate}</td>
+                    <td>{reportData.returnDate}</td>
+                    <td>{reportData.reservationStatus}</td>
                   </tr>
-        </thead>
-        <tbody>
-          {reportData.map((reportData, index) => (
-            <tr key={index}>
-              <td>{reportData.reservationId}</td>
-              <td>{reportData.plateId}</td>
-              <td>{reportData.customerId}</td>
-              <td>{reportData.pickUpDate}</td>
-              <td>{reportData.returnDate}</td>
-              <td>{reportData.reservationStatus}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+                ))}
+              </tbody>
+            </table>
+            <br></br>
+            <Form>
+                <button className=" contact__btn" type="submit">
+                  Export PDF
+                </button>
+            </Form>
+          </div>
+
 
         </Container>
       </section>

@@ -27,8 +27,9 @@
   color: #fff;
 }
 .car__btn-details {
-  background: #26f931;
-  border-radius: 0px 4px 4px 0px;
+  /* background: #26f931; */
+  border-radius: 4px;
+  color: white;
 }
 
 .car__btn-rent {

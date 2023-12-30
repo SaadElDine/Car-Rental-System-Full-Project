@@ -15,6 +15,7 @@ import { RegisterPage } from "../pages/Register";
 import { AdminHome } from "../pages/AdminHome";
 import { AdminUpdate } from "../pages/AdminUpdate";
 import { Table } from "../pages/Table";
+import { Reservation } from "../pages/Reservation";
 
 
 const Routers = () => {
@@ -34,7 +35,8 @@ const Routers = () => {
       <Route path="/admin/home" element={<AdminHome />} />
       <Route path="/admin/update" element={<AdminUpdate />} />
       <Route path="/admin/report" element={<AdminReport />} />
-      <Route path="/admin/report/table" element={<Table />} />
+      <Route path="/admin/table" element={<Table />} />
+      <Route path="/reservation" element={<Reservation />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

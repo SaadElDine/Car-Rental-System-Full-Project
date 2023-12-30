@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
+import { Container, Row, Col, Form, FormGroup, Input, InputGroup, Button } from "reactstrap";
 import { Router, useNavigate } from "react-router-dom"; 
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
@@ -10,6 +10,7 @@ import "../styles/contact.css";
 
 export function RegisterPage() {
   const navigate = useNavigate();
+  const navigate1 = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(true);
@@ -45,6 +46,10 @@ export function RegisterPage() {
 
     // Update the state with the cleaned phone number
     setPhoneNumber(inputValue);
+  };
+
+  const handleAlreadyHaveAnAccountClick = () => {
+    navigate1("/login");
   };
   
   const onSubmit = async (event) => {
@@ -153,28 +158,42 @@ export function RegisterPage() {
                 </FormGroup>
 
                 <FormGroup className="contact__form">
-                  <Input
-                    placeholder="Password"
-                    type={showPassword ? "text" : "password"} 
-                    name="password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                    required
-                  />
+                  <InputGroup>
+                    <Input
+                      placeholder="Password"
+                      type={showPassword ? "text" : "password"} 
+                      name="password"
+                      value={password}
+                      onChange={handlePasswordChange}
+                      required
+                    />
+                      <Button onClick={togglePasswordVisibility}>
+                        <i className={showPassword ? "ri-eye-close-line" : "ri-eye-line"}></i>
+                      </Button>
+                  </InputGroup>
                 </FormGroup>
                 <FormGroup className="contact__form">
-                  <Input
-                    placeholder="Confirm Password"
-                    type={showConfirmPassword ? "text" : "password"} 
-                    name="confirmPassword"
-                    value={confirmPassword}
-                    onChange={handleConfirmPasswordChange}
-                    required
-                  />
+                  <InputGroup>
+                    <Input
+                      placeholder="Confirm Password"
+                      type={showConfirmPassword ? "text" : "password"} 
+                      name="confirmPassword"
+                      value={confirmPassword}
+                      onChange={handleConfirmPasswordChange}
+                      required
+                    />
+                      <Button onClick={toggleConfirmPasswordVisibility}>
+                        <i className={showConfirmPassword ? "ri-eye-close-line" : "ri-eye-line"}></i>
+                      </Button>
+                  </InputGroup>
                   {!passwordsMatch && (
                     <span style={{ color: "red" }}>Passwords do not match</span>
-                    
                   )}
+                  <span className="forgot-password-link">
+                    <a href="#" onClick={handleAlreadyHaveAnAccountClick}>
+                      Already Have An Account?
+                    </a>{" "}
+                  </span>
                 </FormGroup>
 
                 <button className="contact__btn" type="submit">
