@@ -14,7 +14,10 @@ const CarItem = (props) => {
       navigate("/register"); 
       alert("Please Register First!");
     }
-    navigate("/reservation");
+    else 
+    {
+      navigate("/reservation");
+    }
   };
  
 
