@@ -21,7 +21,7 @@ const navLinks = [
 
 const AdminHeader = () => {
   const menuRef = useRef(null);
-  const [adminisLoggedIn, setadminIsLoggedIn] = useState(localStorage.getItem("adminloggedIn"));
+  const [adminIsLoggedIn, setadminIsLoggedIn] = useState(localStorage.getItem("adminLoggedIn"));
   const [adminEmail, setadminEmail] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -37,13 +37,15 @@ const AdminHeader = () => {
 
   useEffect(() => {
   
-    const adminloggedIn = localStorage.getItem("loggedIn") === "true";
-    const adminEmail = localStorage.getItem("adminEmail");
-    setadminIsLoggedIn(adminloggedIn);
-    setadminEmail(adminEmail);
-    }, [adminisLoggedIn]);
+    const adminLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
+    const adminemail = localStorage.getItem("adminEmail");
+    console.log("admin",adminEmail);
+    console.log("lOGGED IN?",adminLoggedIn);
+    setadminIsLoggedIn(adminLoggedIn);
+    setadminEmail(adminemail);
+    }, [adminIsLoggedIn]);
 
-  console.log(localStorage.getItem("adminloggedIn"));
+  console.log(localStorage.getItem("adminLoggedIn"));
   
   const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
 
@@ -55,7 +57,7 @@ const AdminHeader = () => {
           <Row>
             <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-              { adminisLoggedIn ? ( 
+              { adminIsLoggedIn ? ( 
                     <div>
                       <span>Welcome, {adminEmail}</span>
                     </div>
