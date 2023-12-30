@@ -10,7 +10,7 @@ const navLinks = [
     display: "New Car",
   },
   {
-    path: "/admin/about",
+    path: "/admin/update",
     display: "Update Status",
   },
   {
