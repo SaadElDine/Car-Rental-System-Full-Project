@@ -39,7 +39,7 @@ export function AdminLogin() {
       if (response.status === 200) {
         // If login is successful, set adminLoggedIn state and redirect
         localStorage.setItem("adminLoggedIn", true);
-        localStorage.setItem("Email", adminCredentials.email);
+        localStorage.setItem("adminEmail", adminCredentials.email);
         navigate("/Admin/Home"); // Redirect to the admin home page
         alert("Admin Login successful");
       }
