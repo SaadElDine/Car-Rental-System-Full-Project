@@ -26,25 +26,30 @@ export function Reservation() {
     navigate("/cars");
 
     console.log(data);
-    // try{
-    //   const response = await axios.post("http://localhost:8080/cars/updatecar", data);
-    //   alert("Car Status Updated Successfully!");
-    // }
-    // catch(error){
-    //   if (error.response) {
-    //     if (error.response.status === 409) {
-    //       alert("A Car with this PlateId does not exist!");
-    //     } else if (error.response.status === 500) {
-    //       alert("A Car with this PlateId does not exist!");
-    //     } else {
-    //       alert("An unexpected error occurred. Please try again.");
-    //     }
-    //   } else {
-    //     // The request was made but no response was received
-    //     alert("There was a problem connecting to the server. Please check your connection and try again.");
-    //   }
-    //   console.error("Error registering customer", error);
-    // }
+    const res = {
+      customerId: data.customerId,
+      pickUpDate: data.pickUpDate,
+      returnDate: data.returnDate, // Assuming the backend expects contactInfo
+      reservationStatus: "Reserved",
+      plateId: data.plateId,
+    };
+     try{
+       const response = await axios.post("http://localhost:8080/reservations", res);
+       alert("Reservation Accepted Successfully!");
+     }
+     catch(error){
+       if (error.response) {
+         if (error.response.status === 500) {
+           alert("Car Reservation Conflict!");
+         } else {
+           alert("An unexpected error occurred. Please try again.");
+         }
+       } else {
+         // The request was made but no response was received
+         alert("There was a problem connecting to the server. Please check your connection and try again.");
+       }
+       console.error("Error registering customer", error);
+     }
     
   }
 
@@ -88,10 +93,10 @@ export function Reservation() {
                 <label For="RegType">Pickup Date:</label>
                   <input  
                     type="date"
-                    name="pickup"
-                    id="pickup"
+                    name="pickUpDate"
+                    id="pickUpDate"
                     placeholder="MM/DD/YYYY"
-                    value={formData.pickup}
+                    value={formData.pickUpDate}
                     onChange={handleInputChange}
                     required
                   />
@@ -100,10 +105,10 @@ export function Reservation() {
                 <label For="RegType">Return Date:</label>
                   <input  
                     type="date"
-                    name="return"
-                    id="return"
+                    name="returnDate"
+                    id="returnDate"
                     placeholder="MM/DD/YYYY"
-                    value={formData.return}
+                    value={formData.returnDate}
                     onChange={handleInputChange}
                     required
                   />
