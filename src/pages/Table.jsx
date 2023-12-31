@@ -11,14 +11,18 @@ import "../styles/table.css";
 
 export function Table() {
 
-  const [reportType, setReportType] = useState("allReservations");
+  const [reportType, setReportType] = useState("");
   const [reportData, setReportData] = useState([]);
 
-  const onSubmit = async (event) => {
+  const onClick = async() => {
 
     try {
-      const response = await axios.get("http://localhost:8080/reservationsall", localStorage.getItem("Search"));
-      console.log(response);
+      console.log(localStorage.getItem("Search"));
+      const searchTerm = localStorage.getItem("Search");
+      const response = await axios.get("http://localhost:8080/cars/advanced", {
+      params: { searchTerm }
+      });
+      console.log(response.data);
       setReportData(response.data);
     } catch (error) {
       console.error("Error fetching report data", error);
@@ -35,36 +39,53 @@ export function Table() {
             <table>
               <thead>
                 <tr>
+                  <th>Car PlateID</th>
+                  <th>Model</th>
+                  <th>Color</th>
+                  <th>Location</th>
+                  <th>Price/Day</th>
+                  <th>Status</th>
+                  <th>Year</th>
+                  <th>Customer Name</th>
+                  <th>Customer SSN</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                  <th>Address</th>
                   <th>Reservation ID</th>
-                  <th>Plate ID</th>
-                  <th>Customer ID</th>
                   <th>Pickup Date</th>
                   <th>Return Date</th>
-                  <th>Status</th>
+                  <th>Reservation Status</th>
                 </tr>
               </thead>
               <tbody>
                 {reportData.map((reportData, index) => (
                   <tr key={index}>
-                    <td>{reportData.reservationId}</td>
-                    <td>{reportData.plateId}</td>
-                    <td>{reportData.customerId}</td>
-                    <td>{reportData.pickUpDate}</td>
-                    <td>{reportData.returnDate}</td>
-                    <td>{reportData.reservationStatus}</td>
-                  </tr>
+                  <td>{reportData.car?.plateId || "N/A"}</td>
+                  <td>{reportData.car?.model || "N/A"}</td>
+                  <td>{reportData.car?.color || "N/A"}</td>
+                  <td>{reportData.car?.location || "N/A"}</td>
+                  <td>{reportData.car?.price || "N/A"}</td>
+                  <td>{reportData.car?.status || "N/A"}</td>
+                  <td>{reportData.car?.year || "N/A"}</td>
+                  <td>{reportData.customer?.name || "N/A"}</td>
+                  <td>{reportData.customer?.customerId || "N/A"}</td>
+                  <td>{reportData.customer?.email || "N/A"}</td>
+                  <td>{reportData.customer?.contactInfo || "N/A"}</td>
+                  <td>{reportData.customer?.address || "N/A"}</td>
+                  <td>{reportData.reservation?.reservationId || "N/A"}</td>
+                  <td>{reportData.reservation?.pickUpDate || "N/A"}</td>
+                  <td>{reportData.reservation?.returnDate || "N/A"}</td>
+                  <td>{reportData.reservation?.reservationStatus || "N/A"}</td>
+                </tr>
                 ))}
               </tbody>
             </table>
           </div>
           <br></br>
           <br></br>
-          <Form>
-                <button className=" contact__btn" type="submit">
-                  Export PDF
-                </button>
-          </Form>
-
+          <button className=" contact__btn" onClick={onClick}>
+            Show Result
+          </button>
         </Container>
       </section>
     </Helmet>

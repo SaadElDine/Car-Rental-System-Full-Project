@@ -8,7 +8,7 @@ import "../styles/contact.css";
 
 export function AdminReport() {
 
-  const [reportType, setReportType] = useState("allReservations");
+  const [reportType, setReportType] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [specificDate, setSpecificDate] = useState("");
@@ -24,20 +24,43 @@ export function AdminReport() {
     try {
       let response;
       if (reportType === "allReservations") {
-        response = await axios.get("http://localhost:8080/reservationsall", { params: data });
-      } else if (reportType === "reservationsByCar") {
-        response = await axios.get("http://localhost:8080/reservations", { params: data });
-      } else if (reportType === "carStatus") {
-        response = await axios.get(`http://localhost:8080/cars/status/${specificDate}`);
-      } else if (reportType === "customerReservations") {
-        response = await axios.get(`http://localhost:8080/customers/${customerId}/reservations`);
-      } else if (reportType === "dailyPayments") {
-        response = await axios.get("http://localhost:8080/payments", { params: data });
+        response = await axios.get("http://localhost:8080/reports/reservations", { params: data });
       }
+
+      else if (reportType === "reservationsByCar") {
+        const { plateId, startDate, endDate } = data;
+        response = await axios.get('http://localhost:8080/reports/reservations2', {
+        params: {
+        plateId,
+        fromDate: startDate,
+        toDate: endDate
+        }
+        });
+      } 
+
+      else if (reportType === "carStatus") {
+        const { specificDate } = data;
+        response = await axios.get(`http://localhost:8080/cars/availability`, {
+        params: { date: specificDate },
+        });
+      }
+       
+      else if (reportType === "dailyPayments") {
+        response = await axios.get('http://localhost:8080/reports/reservation5', {
+        params: data
+        });
+      }
+      else if (reportType === "customerReservations") {
+        response = await axios.get('http://localhost:8080/reports/reservation4', {
+        params: data
+        });
+      }
+
       console.log(response.data);
       setReportData(response.data);
-    } catch (error) {
-      console.error("Error fetching report data", error);
+    }
+      catch (error) {
+        console.error("Error fetching report data", error);
     }
   };
 
@@ -206,7 +229,12 @@ export function AdminReport() {
                   <th>Pickup Date</th>
                   <th>Return Date</th>
                   <th>Status</th>
-                </tr>
+                  <th>Color</th>
+                  <th>Model</th>
+                  <th>Car Status</th>
+                  <th>Price Per Day</th>
+                  <th>Total Price</th>
+                  </tr>
               </thead>
               <tbody>
                 {reportData.map((reportData, index) => (
@@ -217,6 +245,11 @@ export function AdminReport() {
                     <td>{reportData.pickUpDate}</td>
                     <td>{reportData.returnDate}</td>
                     <td>{reportData.reservationStatus}</td>
+                    <td>{reportData.color}</td>
+                    <td>{reportData.model}</td>
+                    <td>{reportData.carStatus}</td>
+                    <td>{reportData.price}</td>
+                    <td>{reportData.totalPrice}</td>
                   </tr>
                 ))}
               </tbody>
