@@ -1,6 +1,9 @@
 # Car Rental System Website:
 - Car rental systems are essential components of the modern transportation industry, providing individuals and businesses with convenient access to vehicles on a short-term basis.
 These systems are designed to streamline the process of renting a car, offering users a seamless experience from booking to returning the vehicle.Key features of car rental systems include online reservation platforms, vehicle tracking, customer management, and billing integration. By leveraging advanced technology and efficient management tools, car rental systems enhance operational efficiency for rental companies while offering customers flexibility and convenience in accessing transportation services.
+---
+
+![image](https://github.com/SaadElDine/Car-Rental-System-Full-Project/assets/113860522/88eeff75-6796-42b9-aa29-73e21ad3261d)
 
 ---
 
